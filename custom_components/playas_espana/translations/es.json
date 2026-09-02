@@ -1,0 +1,15 @@
+{
+  "config": {
+    "abort": {"already_configured": "Ya existe una entrada con estas playas."},
+    "error": {
+      "cannot_connect": "No se ha podido contactar con Playas de Espana.",
+      "invalid_url": "Incluye una URL valida de una ficha de playa por linea."
+    },
+    "step": {"user": {"title": "Playas de Espana", "description": "Escribe una URL de ficha de Playas de Espana por linea.", "data": {"playas": "URLs de las playas"}}}
+  },
+  "options": {
+    "error": {"cannot_connect": "No se ha podido contactar con Playas de Espana.", "invalid_url": "Incluye una URL valida de una ficha de playa por linea."},
+    "step": {"init": {"title": "Playas configuradas", "description": "Escribe una URL de ficha de Playas de Espana por linea.", "data": {"playas": "URLs de las playas"}}}
+  },
+  "entity": {"sensor": {"bandera": {"name": "Bandera estimada", "state": {"verde": "Verde", "amarilla": "Amarilla", "roja": "Roja", "sin_bandera": "Sin bandera"}}}}
+}
