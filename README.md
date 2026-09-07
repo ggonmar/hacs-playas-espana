@@ -37,8 +37,11 @@ En *Ajustes* -> *Dispositivos y servicios* -> *Anadir integracion*, selecciona
 https://playas-espana.com/en/beaches/playa-de-la-torre-derribada
 ```
 
-La informacion se actualiza cada hora. La bandera es una estimacion calculada por
-la fuente a partir del oleaje y viento, no un parte oficial.
+La informacion se actualiza cada hora. La bandera es una **estimacion meteorologica
+orientativa** calculada a partir del oleaje y viento, no un parte oficial. La
+bandera oficial la iza el socorrista de cada playa y puede diferir: una bandera
+roja real tambien puede deberse a medusas o a la calidad del agua (por ejemplo,
+vertidos), situaciones que esta estimacion no detecta.
 
 ## Desarrollo
 

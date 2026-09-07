@@ -10,7 +10,7 @@
     "step": {
       "user": {
         "title": "Playas de Espana",
-        "description": "Escribe una URL de ficha de Playas de Espana por linea.",
+        "description": "Escribe una URL de ficha por linea. La bandera es una estimacion meteorologica orientativa basada en oleaje y viento; no es la bandera oficial y no detecta medusas ni problemas de calidad del agua.",
         "data": {
           "playas": "URLs de las playas"
         },
@@ -28,7 +28,7 @@
     "step": {
       "init": {
         "title": "Playas configuradas",
-        "description": "Escribe una URL de ficha de Playas de Espana por linea.",
+        "description": "Escribe una URL de ficha por linea. La bandera es una estimacion meteorologica orientativa basada en oleaje y viento; no es la bandera oficial y no detecta medusas ni problemas de calidad del agua.",
         "data": {
           "playas": "URLs de las playas"
         }
@@ -38,7 +38,7 @@
   "entity": {
     "sensor": {
       "bandera": {
-        "name": "Bandera estimada",
+        "name": "Bandera estimada (oleaje y viento)",
         "state": {
           "verde": "Verde",
           "amarilla": "Amarilla",

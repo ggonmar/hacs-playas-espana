@@ -2,11 +2,11 @@
   "config": {
     "abort": {"already_configured": "An entry with these beaches already exists."},
     "error": {"cannot_connect": "Could not reach Playas de Espana.", "invalid_url": "Enter one valid beach page URL per line."},
-    "step": {"user": {"title": "Beaches of Spain", "description": "Enter one Playas de Espana beach page URL per line.", "data": {"playas": "Beach URLs"}}}
+    "step": {"user": {"title": "Beaches of Spain", "description": "Enter one beach page URL per line. The flag is an indicative weather estimate based on waves and wind; it is not the official flag and does not detect jellyfish or water-quality problems.", "data": {"playas": "Beach URLs"}}}
   },
   "options": {
     "error": {"cannot_connect": "Could not reach Playas de Espana.", "invalid_url": "Enter one valid beach page URL per line."},
-    "step": {"init": {"title": "Configured beaches", "description": "Enter one Playas de Espana beach page URL per line.", "data": {"playas": "Beach URLs"}}}
+    "step": {"init": {"title": "Configured beaches", "description": "Enter one beach page URL per line. The flag is an indicative weather estimate based on waves and wind; it is not the official flag and does not detect jellyfish or water-quality problems.", "data": {"playas": "Beach URLs"}}}
   },
-  "entity": {"sensor": {"bandera": {"name": "Estimated flag", "state": {"verde": "Green", "amarilla": "Yellow", "roja": "Red", "sin_bandera": "No flag"}}}}
+  "entity": {"sensor": {"bandera": {"name": "Estimated flag (waves and wind)", "state": {"verde": "Green", "amarilla": "Yellow", "roja": "Red", "sin_bandera": "No flag"}}}}
 }

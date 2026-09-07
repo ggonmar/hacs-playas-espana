@@ -5,11 +5,11 @@
       "cannot_connect": "No se ha podido contactar con Playas de Espana.",
       "invalid_url": "Incluye una URL valida de una ficha de playa por linea."
     },
-    "step": {"user": {"title": "Playas de Espana", "description": "Escribe una URL de ficha de Playas de Espana por linea.", "data": {"playas": "URLs de las playas"}}}
+    "step": {"user": {"title": "Playas de Espana", "description": "Escribe una URL de ficha por linea. La bandera es una estimacion meteorologica orientativa basada en oleaje y viento; no es la bandera oficial y no detecta medusas ni problemas de calidad del agua.", "data": {"playas": "URLs de las playas"}}}
   },
   "options": {
     "error": {"cannot_connect": "No se ha podido contactar con Playas de Espana.", "invalid_url": "Incluye una URL valida de una ficha de playa por linea."},
-    "step": {"init": {"title": "Playas configuradas", "description": "Escribe una URL de ficha de Playas de Espana por linea.", "data": {"playas": "URLs de las playas"}}}
+    "step": {"init": {"title": "Playas configuradas", "description": "Escribe una URL de ficha por linea. La bandera es una estimacion meteorologica orientativa basada en oleaje y viento; no es la bandera oficial y no detecta medusas ni problemas de calidad del agua.", "data": {"playas": "URLs de las playas"}}}
   },
-  "entity": {"sensor": {"bandera": {"name": "Bandera estimada", "state": {"verde": "Verde", "amarilla": "Amarilla", "roja": "Roja", "sin_bandera": "Sin bandera"}}}}
+  "entity": {"sensor": {"bandera": {"name": "Bandera estimada (oleaje y viento)", "state": {"verde": "Verde", "amarilla": "Amarilla", "roja": "Roja", "sin_bandera": "Sin bandera"}}}}
 }
