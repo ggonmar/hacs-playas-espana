@@ -15,7 +15,7 @@
           "playas": "URLs de las playas"
         },
         "data_description": {
-          "playas": "Ejemplo: https://playas-espana.com/en/beaches/playa-de-la-torre-derribada"
+          "playas": "Ejemplo: una URL de ficha de playa por linea"
         }
       }
     }
