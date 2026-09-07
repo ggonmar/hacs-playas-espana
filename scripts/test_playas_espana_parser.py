@@ -37,6 +37,8 @@ def main() -> int:
     assert playa.atributos["latitude"] == 39.4
     assert playa.atributos["condiciones"] == "BUENA"
     assert api.normalizar_url("https://www.playas-espana.com/en/beaches/playa-de-prueba") == "https://playas-espana.com/en/beaches/playa-de-prueba"
+    assert api.normalizar_url("https://playas-espana.com/playas/platja-nord-de-gandia") == "https://playas-espana.com/playas/platja-nord-de-gandia"
+    assert api.normalizar_url("https://playas-espana.com/playas/platja-de-lahuir") == "https://playas-espana.com/playas/platja-de-lahuir"
     print("OK")
     return 0
 

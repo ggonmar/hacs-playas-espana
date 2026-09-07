@@ -19,7 +19,7 @@ REQUEST_TIMEOUT = aiohttp.ClientTimeout(total=30)
 
 _FLIGHT_RE = re.compile(r"self\.__next_f\.push\(\[1,(.+)\]\)")
 _BEACH_MARKER = '{"playa":'
-_VALID_PATH_RE = re.compile(r"^/(?:en/)?beaches/[^/]+/?$")
+_VALID_PATH_RE = re.compile(r"^/(?:en/)?(?:beaches|playas)/[^/]+/?$")
 
 
 class PlayasEspanaError(Exception):
