@@ -13,6 +13,7 @@ from homeassistant.util import slugify
 
 from .const import ATTRIBUTION, DOMAIN, FLAG_STATES
 from .coordinator import PlayasEspanaConfigEntry, PlayasEspanaCoordinator
+from .icons_map import flag_entity_picture
 
 
 async def async_setup_entry(
@@ -69,6 +70,14 @@ class BanderaPlayaSensor(CoordinatorEntity[PlayasEspanaCoordinator], SensorEntit
     def native_value(self) -> str | None:
         playa = (self.coordinator.data or {}).get(self._slug)
         return playa.bandera if playa else None
+
+    @property
+    def entity_picture(self) -> str | None:
+        """Icono de bandera para mostrarlo en el mapa."""
+        playa = (self.coordinator.data or {}).get(self._slug)
+        if playa is None:
+            return None
+        return flag_entity_picture(playa.bandera)
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
