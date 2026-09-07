@@ -20,6 +20,10 @@ REQUEST_TIMEOUT = aiohttp.ClientTimeout(total=30)
 _FLIGHT_RE = re.compile(r"self\.__next_f\.push\(\[1,(.+)\]\)")
 _BEACH_MARKER = '{"playa":'
 _VALID_PATH_RE = re.compile(r"^/(?:en/)?(?:beaches|playas)/[^/]+/?$")
+_JSONLD_RE = re.compile(
+    r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+    re.DOTALL | re.IGNORECASE,
+)
 
 
 class PlayasEspanaError(Exception):
@@ -65,10 +69,60 @@ def _flight_payloads(html: str) -> list[str]:
     return payloads
 
 
-def parse_ficha_playa(html: str) -> Playa:
-    """Extrae los datos de la playa de la carga React de una ficha."""
+def _jsonld_beach_data(html: str) -> dict[str, Any] | None:
+    """Extrae la ficha Schema.org, mas estable que la serializacion de Next.js."""
+    for match in _JSONLD_RE.finditer(html):
+        try:
+            candidate = json.loads(match.group(1))
+        except json.JSONDecodeError:
+            continue
+        types = candidate.get("@type", []) if isinstance(candidate, dict) else []
+        if isinstance(types, str):
+            types = [types]
+        if not isinstance(candidate, dict) or "Beach" not in types:
+            continue
+
+        properties = {
+            item.get("name"): item.get("value")
+            for item in candidate.get("additionalProperty", [])
+            if isinstance(item, dict) and item.get("name")
+        }
+        features = {
+            item.get("name"): item.get("value")
+            for item in candidate.get("amenityFeature", [])
+            if isinstance(item, dict) and item.get("name")
+        }
+        geo = candidate.get("geo") if isinstance(candidate.get("geo"), dict) else {}
+        address = candidate.get("address") if isinstance(candidate.get("address"), dict) else {}
+        return {
+            "playa": {
+                "nombre": candidate.get("name"),
+                "slug": candidate.get("identifier"),
+                "municipio": address.get("addressLocality"),
+                "provincia": address.get("addressRegion"),
+                "comunidad": None,
+                "lat": geo.get("latitude"),
+                "lng": geo.get("longitude"),
+                "tipo": properties.get("Tipo"),
+                "composicion": properties.get("Composición"),
+                "socorrismo": features.get("Socorrismo"),
+                "duchas": features.get("Duchas"),
+                "parking": features.get("Parking"),
+                "bandera": features.get("Bandera Azul"),
+            },
+            "meteo": {
+                "agua": properties.get("Temperatura del agua"),
+                "olas": properties.get("Altura del oleaje"),
+                "viento": properties.get("Velocidad del viento"),
+                "uv": properties.get("Índice UV"),
+                "tempAire": properties.get("Temperatura del aire"),
+            },
+        }
+
+
+def _flight_data(html: str) -> dict[str, Any] | None:
+    """Obtiene datos internos solo como complemento de los datos estructurados."""
     decoder = json.JSONDecoder()
-    data: dict[str, Any] | None = None
     for payload in _flight_payloads(html):
         marker = payload.find(_BEACH_MARKER)
         if marker < 0:
@@ -78,8 +132,34 @@ def parse_ficha_playa(html: str) -> Playa:
         except json.JSONDecodeError:
             continue
         if isinstance(candidate, dict) and isinstance(candidate.get("playa"), dict):
-            data = candidate
-            break
+            return candidate
+    return None
+
+
+def parse_ficha_playa(html: str) -> Playa:
+    """Extrae los datos estructurados y completa lo que falte desde Next.js."""
+    data = _jsonld_beach_data(html)
+    flight_data = _flight_data(html)
+    if data is None:
+        data = flight_data
+    elif flight_data is not None:
+        data["playa"].update(
+            {
+                key: value
+                for key, value in flight_data["playa"].items()
+                if data["playa"].get(key) is None and value is not None
+            }
+        )
+        data["meteo"].update(
+            {
+                key: value
+                for key, value in flight_data.get("meteo", {}).items()
+                if data["meteo"].get(key) is None and value is not None
+            }
+        )
+        for key in ("banderaPlaya", "estado"):
+            if key in flight_data:
+                data[key] = flight_data[key]
 
     if data is None:
         raise PlayasEspanaError("No se encontraron datos de playa en la respuesta")

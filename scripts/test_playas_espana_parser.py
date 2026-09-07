@@ -28,7 +28,7 @@ def _cargar_api() -> types.ModuleType:
 
 
 def _cargar_iconos() -> types.ModuleType:
-    api = _cargar_api()
+    _cargar_api()
     spec = importlib.util.spec_from_file_location(
         f"{PAQUETE}.icons_map", COMPONENTE / "icons_map.py"
     )
@@ -41,8 +41,35 @@ def _cargar_iconos() -> types.ModuleType:
 
 def main() -> int:
     api = _cargar_api()
-    html = '''<script>self.__next_f.push([1,"5b:[\\\"$\\\",\\\"main\\\",null,{\\\"playa\\\":{\\\"nombre\\\":\\\"Playa de prueba\\\",\\\"municipio\\\":\\\"Valencia\\\",\\\"provincia\\\":\\\"Valencia\\\",\\\"comunidad\\\":\\\"Comunidad Valenciana\\\",\\\"lat\\\":39.4,\\\"lng\\\":-0.3,\\\"slug\\\":\\\"playa-de-prueba\\\",\\\"socorrismo\\\":true,\\\"bandera\\\":true},\\\"meteo\\\":{\\\"agua\\\":25.5,\\\"olas\\\":0.4,\\\"viento\\\":9,\\\"uv\\\":3},\\\"estado\\\":{\\\"label\\\":\\\"BUENA\\\"},\\\"banderaPlaya\\\":{\\\"color\\\":\\\"verde\\\",\\\"label\\\":\\\"Mar en calma\\\"}}]\\n"])</script>'''
-    playa = api.parse_ficha_playa(html)
+    jsonld_html = """<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["Beach", "TouristDestination"],
+      "identifier": "playa-jsonld",
+      "name": "Playa JSON-LD",
+      "geo": {"latitude": 39.4, "longitude": -0.3},
+      "address": {"addressLocality": "Valencia", "addressRegion": "Valencia"},
+      "additionalProperty": [
+        {"name": "Temperatura del agua", "value": 25.5},
+        {"name": "Altura del oleaje", "value": 0.4},
+        {"name": "Velocidad del viento", "value": 9},
+        {"name": "Índice UV", "value": 3},
+        {"name": "Temperatura del aire", "value": 28}
+      ],
+      "amenityFeature": [
+        {"name": "Bandera Azul", "value": true},
+        {"name": "Socorrismo", "value": true}
+      ]
+    }
+    </script>"""
+    jsonld_playa = api.parse_ficha_playa(jsonld_html)
+    assert jsonld_playa.slug == "playa-jsonld"
+    assert jsonld_playa.atributos["temperatura_agua"] == 25.5
+    assert jsonld_playa.atributos["bandera_azul"] is True
+    assert jsonld_playa.atributos["indice_uv"] == 3
+
+    flight_html = '''<script>self.__next_f.push([1,"5b:[\\\"$\\\",\\\"main\\\",null,{\\\"playa\\\":{\\\"nombre\\\":\\\"Playa de prueba\\\",\\\"municipio\\\":\\\"Valencia\\\",\\\"provincia\\\":\\\"Valencia\\\",\\\"comunidad\\\":\\\"Comunidad Valenciana\\\",\\\"lat\\\":39.4,\\\"lng\\\":-0.3,\\\"slug\\\":\\\"playa-de-prueba\\\",\\\"socorrismo\\\":true,\\\"bandera\\\":true},\\\"meteo\\\":{\\\"agua\\\":25.5,\\\"olas\\\":0.4,\\\"viento\\\":9,\\\"uv\\\":3},\\\"estado\\\":{\\\"label\\\":\\\"BUENA\\\"},\\\"banderaPlaya\\\":{\\\"color\\\":\\\"verde\\\",\\\"label\\\":\\\"Mar en calma\\\"}}]\\n"])</script>'''
+    playa = api.parse_ficha_playa(flight_html)
     assert playa.slug == "playa-de-prueba"
     assert playa.bandera == "verde"
     assert playa.atributos["temperatura_agua"] == 25.5
