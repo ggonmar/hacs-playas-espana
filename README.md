@@ -1,8 +1,8 @@
 # Playas de Espana para Home Assistant
 
 [![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz)
-[![Release](https://img.shields.io/github/v/release/ggonmar/hacs-playas-espana)](https://github.com/ggonmar/hacs-playas-espana/releases)
-[![License](https://img.shields.io/github/license/ggonmar/hacs-playas-espana)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/ggonmar/playas-espana)](https://github.com/ggonmar/playas-espana/releases)
+[![License](https://img.shields.io/github/license/ggonmar/playas-espana)](LICENSE)
 
 Integracion personalizada para Home Assistant que publica las condiciones de las
 playas de Espana a partir de las fichas de
@@ -18,7 +18,7 @@ servicios, Bandera Azul, municipio, provincia y coordenadas.
 
 En HACS, abre el menu de repositorios personalizados y anade:
 
-`https://github.com/ggonmar/hacs-playas-espana`
+`https://github.com/ggonmar/playas-espana`
 
 con la categoria **Integracion**. Instala **Playas de Espana** y reinicia Home
 Assistant.
